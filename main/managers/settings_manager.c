@@ -32,8 +32,9 @@ static bool settings_should_use_noop_dualcomm_pins(void) {
   // both pins rather than fight the radio (and break old saved 6/7 too).
   return strcmp(CONFIG_BUILD_CONFIG_TEMPLATE, "Heltec WiFi Kit 32 V3") == 0;
 #elif defined(CONFIG_BUILD_CONFIG_TEMPLATE)
-  return strcmp(CONFIG_BUILD_CONFIG_TEMPLATE, "Pancake") == 0 ||
-         strcmp(CONFIG_BUILD_CONFIG_TEMPLATE, "MarauderV8") == 0;
+    return strcmp(CONFIG_BUILD_CONFIG_TEMPLATE, "Pancake") == 0 ||
+         strcmp(CONFIG_BUILD_CONFIG_TEMPLATE, "MarauderV8") == 0 ||
+         strcmp(CONFIG_BUILD_CONFIG_TEMPLATE, "default.esp32") == 0;
 #else
   return false;
 #endif
