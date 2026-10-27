@@ -158,8 +158,15 @@ jobs:
           rm -f sdkconfig sdkconfig.defaults
           cp "${{ matrix.target.sdkconfig_file }}" sdkconfig.defaults
           cp "${{ matrix.target.sdkconfig_file }}" sdkconfig
-          printf "\n# CONFIG_FATFS_USE_DYN_BUFFERS is not set\n" >> sdkconfig.defaults
-          printf "\n# CONFIG_FATFS_USE_DYN_BUFFERS is not set\n" >> sdkconfig
+          if [ "${{ matrix.target.idf_target }}" = "esp32s2" ]; then
+            # ESP32-S2 builds are DRAM-constrained; dynamic FatFS buffers avoid
+            # link-time .bss overflow (seen in Awok V5 and other S2 profiles).
+            printf "\nCONFIG_FATFS_USE_DYN_BUFFERS=y\n" >> sdkconfig.defaults
+            printf "\nCONFIG_FATFS_USE_DYN_BUFFERS=y\n" >> sdkconfig
+          else
+            printf "\n# CONFIG_FATFS_USE_DYN_BUFFERS is not set\n" >> sdkconfig.defaults
+            printf "\n# CONFIG_FATFS_USE_DYN_BUFFERS is not set\n" >> sdkconfig
+          fi
           printf "\n# CONFIG_ESP_GDBSTUB_ENABLED is not set\n" >> sdkconfig.defaults
           printf "\n# CONFIG_ESP_GDBSTUB_ENABLED is not set\n" >> sdkconfig
 
